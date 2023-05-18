@@ -1,0 +1,23 @@
+{
+  "name": "webgpu",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "unplugin-auto-import": "^0.16.0",
+    "vue": "^3.2.47",
+    "vue-router": "^4.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.1.0",
+    "@webgpu/types": "^0.1.32",
+    "typescript": "^5.0.2",
+    "vite": "^4.3.2",
+    "vue-tsc": "^1.4.2"
+  }
+}
