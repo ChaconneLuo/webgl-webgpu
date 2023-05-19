@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "gl-matrix": "^3.4.3",
     "unplugin-auto-import": "^0.16.0",
     "vite-plugin-pages": "^0.29.1",
     "vue": "^3.2.47",
