@@ -32,7 +32,7 @@ if (!navigator.gpu) {
       vertex: {
         buffers: [
           {
-            //间隔3个点，每个点4字节
+            //间隔3个点，每个点4字节，每隔12字节取一个点
             arrayStride: 12,
             attributes: [{
               shaderLocation: 0,
@@ -64,7 +64,7 @@ if (!navigator.gpu) {
     });
     const commandEncoder: GPUCommandEncoder = device.createCommandEncoder();
 
-    const renderPass = commandEncoder.beginRenderPass({
+    const renderPass: GPURenderPassEncoder = commandEncoder.beginRenderPass({
       colorAttachments: [{
         view: context.getCurrentTexture().createView(),
         storeOp: 'store',
@@ -79,7 +79,7 @@ if (!navigator.gpu) {
     renderPass.draw(3);
     renderPass.end();
 
-    const commandBuffer = commandEncoder.finish();
+    const commandBuffer: GPUCommandBuffer = commandEncoder.finish();
 
     device.queue.submit([commandBuffer]);
   }
