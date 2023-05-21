@@ -29,6 +29,30 @@ if (!navigator.gpu) {
 
         device.queue.writeBuffer(vertexBuffer, 0, vertexArray);
 
+        const scaleArray: Float32Array = new Float32Array([
+            1.0, 0.0, 0.0, 0.0,
+            0.0, 1.0, 0.0, 0.0,
+            0.0, 0.0, 1.0, 0.0,
+            0.25, 0.0, 0.0, 1.0
+        ])
+
+        const scaleBuffer = device.createBuffer({
+            size: scaleArray.byteLength,
+            usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST
+        });
+        device.queue.writeBuffer(scaleBuffer, 0, scaleArray);
+
+        const rotateArray: Float32Array = new Float32Array([
+            Math.cos(Math.PI / 4), Math.sin(Math.PI / 4), 0.0, 0.0,
+            -Math.sin(Math.PI / 4), Math.cos(Math.PI / 4), 0.0, 0.0,
+            0.0, 0.0, 1.0, 0.0,
+            0, 0, 0, 1.0
+        ])
+        const rotateBuffer = device.createBuffer({
+            size: rotateArray.byteLength,
+            usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST
+        });
+
         const pipeline: GPURenderPipeline = device.createRenderPipeline({
             vertex: {
                 buffers: [
@@ -63,26 +87,65 @@ if (!navigator.gpu) {
             },
             layout: 'auto'
         });
-        const commandEncoder: GPUCommandEncoder = device.createCommandEncoder();
-
-        const renderPass: GPURenderPassEncoder = commandEncoder.beginRenderPass({
-            colorAttachments: [{
-                view: context.getCurrentTexture().createView(),
-                storeOp: 'store',
-                loadOp: 'clear',
-                clearValue: { r: 0.5, g: 0.5, b: 0.5, a: 1.0 }
-            }]
+        const bindGroup = device.createBindGroup({
+            layout: pipeline.getBindGroupLayout(0),
+            entries: [
+                {
+                    binding: 0,
+                    resource: {
+                        buffer: scaleBuffer
+                    }
+                },
+                {
+                    binding: 1,
+                    resource: {
+                        buffer: rotateBuffer
+                    }
+                }
+            ]
         })
 
-        renderPass.setPipeline(pipeline);
-        renderPass.setVertexBuffer(0, vertexBuffer);
+        let angle: number = 0;
 
-        renderPass.draw(4);
-        renderPass.end();
+        const renderFrame = () => {
+            angle += 0.01;
+            const rotateArray: Float32Array = new Float32Array([
+                Math.cos(angle), Math.sin(angle), 0.0, 0.0,
+                -Math.sin(angle), Math.cos(angle), 0.0, 0.0,
+                0.0, 0.0, 1.0, 0.0,
+                0, 0, 0, 1.0
+            ])
+            device.queue.writeBuffer(rotateBuffer, 0, rotateArray);
 
-        const commandBuffer: GPUCommandBuffer = commandEncoder.finish();
+            const commandEncoder: GPUCommandEncoder = device.createCommandEncoder();
 
-        device.queue.submit([commandBuffer]);
+            const renderPass: GPURenderPassEncoder = commandEncoder.beginRenderPass({
+                colorAttachments: [{
+                    view: context.getCurrentTexture().createView(),
+                    storeOp: 'store',
+                    loadOp: 'clear',
+                    clearValue: { r: 0.5, g: 0.5, b: 0.5, a: 1.0 }
+                }]
+            })
+
+            renderPass.setPipeline(pipeline);
+            renderPass.setVertexBuffer(0, vertexBuffer);
+            renderPass.setBindGroup(0, bindGroup);
+
+            renderPass.draw(4);
+            renderPass.end();
+
+            const commandBuffer: GPUCommandBuffer = commandEncoder.finish();
+
+            device.queue.submit([commandBuffer]);
+        }
+
+        const render = () => {
+            renderFrame();
+            requestAnimationFrame(render);
+        }
+
+        render();
     }
     init();
 }
