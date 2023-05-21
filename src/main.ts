@@ -10,4 +10,7 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [...extraRoute, ...routes],
 })
-createApp(App).use(router).mount('#app')
+
+const app = createApp(App);
+app.use(router);
+app.mount('#app');
