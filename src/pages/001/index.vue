@@ -1,26 +1,13 @@
 <script setup lang="ts">
-if (!navigator.gpu) {
-  console.log("WebGPU is not supported!");
-} else {
-  const init = async () => {
-    const adapter = await navigator.gpu.requestAdapter();
-    const device = await adapter!.requestDevice();
-
-    const canvas = document.getElementById('webgpu') as HTMLCanvasElement;
-    const context = canvas!.getContext('webgpu') as GPUCanvasContext;
-
-    const format = navigator.gpu.getPreferredCanvasFormat();
-    context!.configure({
-      device: device,
-      format: format
-    })
-  }
-  init();
-}
+const gpuSupport = navigator.gpu ? true : false;
 </script>
 
 <template>
-  <canvas id="webgpu" width="500" height="500"></canvas>
+  <div class="w-125 h-125 flex flex-row justify-center flex-items-center">
+
+    <h3 v-if="gpuSupport">WebGPU Check:&nbsp;WebGPU is supported!</h3>
+    <h1 v-else>WebGPU Check:&nbsp;WebGPU is not supported!</h1>
+  </div>
 </template>
 
 <style scoped></style>
