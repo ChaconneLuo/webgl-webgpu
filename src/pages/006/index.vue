@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import vertexShader from './vertex.wgsl?raw';
-import fragmentShader from './fragment.wgsl?raw';
+import shader from './shader.wgsl?raw';
 if (!navigator.gpu) {
     console.log("WebGPU is not supported!");
 } else {
@@ -77,15 +76,15 @@ if (!navigator.gpu) {
                     }
                 ],
                 module: device.createShaderModule({
-                    code: vertexShader
+                    code: shader
                 }),
-                entryPoint: "main",
+                entryPoint: "vs_main",
             },
             fragment: {
                 module: device.createShaderModule({
-                    code: fragmentShader
+                    code: shader
                 }),
-                entryPoint: "main",
+                entryPoint: "fs_main",
                 targets: [
                     {
                         format: format
