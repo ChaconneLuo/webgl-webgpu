@@ -18,6 +18,8 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.4.0",
     "@webgpu/types": "^0.1.38",
+    "eslint": "^8.51.0",
+    "eslint-plugin-simple-import-sort": "10.0.0",
     "typescript": "^5.2.2",
     "unocss": "^0.52.7",
     "vite": "^4.4.11",

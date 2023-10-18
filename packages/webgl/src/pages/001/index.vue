@@ -1,20 +1,5 @@
 <script setup lang="ts">
-const WebGLSupport = (): boolean => {
-  try {
-    const canvas = document.createElement('canvas');
-    return !!(window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
-  } catch (e) {
-    return false;
-  }
-}
-const WebGL2Support = (): boolean => {
-  try {
-    const canvas = document.createElement('canvas');
-    return !!(window.WebGLRenderingContext && (canvas.getContext('webgl2')));
-  } catch (e) {
-    return false;
-  }
-}
+import { WebGLSupport, WebGL2Support } from '@src/utils/platform';
 </script>
 
 <template>

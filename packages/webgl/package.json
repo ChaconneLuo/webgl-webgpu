@@ -3,6 +3,8 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
@@ -16,8 +18,11 @@
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
+    "@types/node": "^20.8.6",
     "@vitejs/plugin-vue": "^4.4.0",
     "@webgpu/types": "^0.1.38",
+    "eslint": "^8.51.0",
+    "eslint-plugin-simple-import-sort": "10.0.0",
     "typescript": "^5.2.2",
     "unocss": "^0.52.7",
     "vite": "^4.4.11",

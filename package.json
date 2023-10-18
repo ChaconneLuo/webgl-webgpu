@@ -11,8 +11,16 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+  },
   "devDependencies": {
-    "lerna": "^7.4.0"
+    "@vitejs/plugin-vue": "^4.4.0",
+    "eslint": "^8.51.0",
+    "eslint-plugin-simple-import-sort": "10.0.0",
+    "lerna": "^7.4.1",
+    "typescript": "^5.2.2",
+    "unocss": "^0.52.7",
+    "vite": "^4.4.11",
+    "vue-tsc": "^1.8.19"
   }
 }
